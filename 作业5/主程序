@@ -1,7 +1,9 @@
-Button1[]bt;
+Button1[] bt;
 Button2[]bt2;
 
-boolean hover3;
+Button1 btn;//
+
+boolean isBtHover,isBt2Hover;
 float speed=0;
 float easing = 0.07;
 float btWidth = 50;
@@ -14,6 +16,9 @@ void setup(){
   background(0);
   
   bt = new Button1[1];
+  
+  btn=new  Button1(50, 75, 10, 15,color(255,0,0));//
+  
   for(int i=0;i<bt.length;i++){
   color cc = color(random(255), random(255), random(255));
   bt[i]=new Button1(50, 50+(btHeight+10)*i, btWidth, btHeight, cc);
@@ -36,20 +41,23 @@ void draw(){
   line();
   
     for (int i = 0; i < bt.length; i ++) {
-    bt[i].hover();
-    hover3=true;
+   if( bt[i].hover()){
+    isBtHover=true;
+   }
   }
     for (int i = 0; i < bt.length; i ++) {
     bt[i].showButton1();
     if (bt[i].pickColor) {
       brushColor = bt[i].buttonColor;
       bt[i].pickColor = false;
+      isBt2Hover=false;
     }
   }
   
     for (int j = 0; j< bt.length; j++) {
-    bt2[j].hover2();
-    hover3=true;
+   if( bt2[j].hover2()){
+    isBt2Hover=true;
+   }
   }
      for (int j= 0; j< bt.length; j++) {
      bt2[j].showButton2() ;
@@ -57,6 +65,7 @@ void draw(){
        if (bt2[j].pickColor2) {
       brushColor2 = bt2[j].buttonColor2;
       bt2[j].pickColor2 = false;
+      isBtHover=false;
     }
     }
 }
@@ -67,7 +76,7 @@ void line(){
   float target = dist(mouseX, mouseY, pmouseX, pmouseY);
   speed += (target - speed) * easing;
 
-  if (mousePressed&& hover3 ) {
+  if (mousePressed&& isBtHover ) {
     strokeWeight(speed/2);
     stroke(brushColor);
     line(mouseX, mouseY, pmouseX, pmouseY);
@@ -77,7 +86,7 @@ void line(){
 
 void ellipse(){
   
-  if (mousePressed&&hover3){
+  if (mousePressed&&isBt2Hover){
     pushMatrix();
     translate(mouseX,mouseY);
     for(int q=0;q<10;q++){
